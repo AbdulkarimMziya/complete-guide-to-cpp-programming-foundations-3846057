@@ -1,6 +1,6 @@
 // Complete Guide to C++ Programming Foundations
 // Exercise 02_12
-// Type Inference with auto, by Eduardo Corpeño 
+// Type Inference with auto, by Abdul Mziya
 
 #include <iostream>
 #include <typeinfo>
