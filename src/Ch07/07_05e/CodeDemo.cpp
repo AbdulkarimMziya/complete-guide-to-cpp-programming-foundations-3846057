@@ -39,6 +39,7 @@ public:
             items->erase(it);
         else
             std::cout << "Item " << item << " not found in inventory" << std::endl;
+            
     }
 
     // Access item by index

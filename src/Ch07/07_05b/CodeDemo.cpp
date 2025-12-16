@@ -74,18 +74,26 @@ int main(){
     Inventory myInventory(5); 
     
     // Add 5 items
+    myInventory.addItem("Water");
+    myInventory.addItem("Chalk");
+    myInventory.addItem("Phone");
+    myInventory.addItem("Pencil");
+    myInventory.addItem("Pen");
 
     // Display current inventory
     myInventory.displayInventory(); 
 
     // Try to add another item when inventory is full
+    myInventory.addItem("Band");
 
     // Remove an item
+    myInventory.removeItem("Pen");
 
     // Display the item count
+    myInventory.displayInventory();
 
     // Access item by index
-
+    myInventory.getItem(2);
     // Display final state of inventory
     myInventory.displayInventory();
 

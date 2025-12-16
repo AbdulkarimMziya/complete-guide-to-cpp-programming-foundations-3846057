@@ -9,7 +9,38 @@
 #include <utility>
 
 class Person{
-    // Write your code here
+private:
+    std::string name;
+    float energy, happiness, health;
+
+public:
+    Person(const std::string& _name, float _energy, float _happiness, float _health): name(_name), energy(_energy), happiness(_happiness), health(_health) {}
+
+    void Eat(float calories) {
+        this->energy += (calories * 7.0 / 200.0); 
+    }
+
+    void Play(float minutes) {
+        happiness += (minutes / 2.0);
+        energy -= (minutes / 3.0);
+    }
+
+    void Sleep(float hours) {
+        this->energy += (hours * 3.75);
+        this->health += (hours * 2.5);
+    }
+
+    float GetEnergy() {
+        return this->energy;
+    }
+
+    float GetHappiness() {
+        return this->happiness;
+    }
+
+    float GetHealth() {
+        return this->health;
+    }
 };
 
 int main(){
