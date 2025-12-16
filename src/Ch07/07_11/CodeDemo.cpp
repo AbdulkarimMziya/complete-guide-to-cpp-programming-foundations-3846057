@@ -1,6 +1,6 @@
 // Complete Guide to C++ Programming Foundations
 // Challenge Solution 07_11
-// Design a Person Class, by Eduardo Corpeño 
+// Design a Person Class, by Abdul Mziya
 
 #include <iostream>
 #include <cstdint>
@@ -8,77 +8,82 @@
 #include <string>
 #include <utility>
 
-class Person{
+class Inventory {
+    static int objectCount;
 private:
-    std::string name;
-    float energy;
-    float happiness;
-    float health;
-
+    std::vector<std::string> items;
+    int capacity;
 public:
-    // Constructor
-    Person(const std::string& name, float energy, float happiness, float health)
-        : name(name), energy(energy), happiness(happiness), health(health) {}
+    // Constructors
+    Inventory() : capacity() { ++objectCount; }
+    Inventory(int _capacity): capacity(_capacity) { ++objectCount; }
 
-    // Member function to eat
-    void Eat(float calories){
-        energy += (calories * 7.0) / 200.0;
-        if (energy > 100) energy = 100;  // Cap energy to 100
+    // Destructor
+    ~Inventory(){ --objectCount; }
+
+    // Getters
+    int GetCapacity() const{ return capacity; }
+
+    // Setters
+    void SetCapacity(int capacity) { 
+        this->capacity = capacity; 
     }
 
-    // Member function to play
-    void Play(float minutes){
-        happiness += minutes / 2.0; // Playing increases happiness by half the minutes
-        energy -= minutes / 3.0;    // Playing decreases energy proportionally
-        if (happiness > 100) happiness = 100;  // Cap happiness to 100
-        if (energy < 0) energy = 0;  // Ensure energy doesn't go below 0
+    // Friend function definition
+    friend void PrintInventoryItems(const Inventory& __inventory);
+
+    // Operator Functions
+    Inventory& operator += (const std::string& item) {
+        addItem(item);
+        return *this;
     }
 
-    // Member function to sleep
-    void Sleep(float hours){
-        energy += hours * 3.75;  // Sleeping increases energy
-        health += hours * 2.5;  // Sleeping increases health
-        if (energy > 100) energy = 100;  // Cap energy to 100
-        if (health > 100) health = 100;  // Cap health to 100
+    const std::string& operator[](size_t index) {
+        return items.at(index);
     }
 
-    // Getter for energy
-    float GetEnergy() const{
-        return energy;
+    // Functions
+    void addItem(const std::string& item) {
+        if(items.size() <= capacity) {
+            items.push_back(item);
+        } else {
+            std::cout << "Cannot add item, Inventory is full!!" << std::endl;
+        }
     }
 
-    // Getter for happiness
-    float GetHappiness() const{
-        return happiness;
+    void PrintAllItems() {
+        std::cout << "All Items: [" ;
+        for(size_t i = 0; i < items.size(); i++) {
+            std::cout << items[i];
+            if (i != items.size() - 1) std::cout << ", ";
+        } 
+        std::cout << " ]" << std::endl ;
     }
 
-    // Getter for health
-    float GetHealth() const{
-        return health;
-    }
+};
+
+int Inventory::objectCount = 0;
+
+void PrintInventoryItems(const Inventory& __inventory){
+    std::cout << "All Items: [" ;
+    for(size_t i = 0; i < __inventory.items.size(); i++) {
+        std::cout << __inventory.items[i];
+        if (i != __inventory.items.size() - 1) std::cout << ", ";
+    } 
+    std::cout << "]" << std::endl ;
 };
 
 int main(){
-    // Example 1
-    std::string name = "Alice";
-    float energy = 40;
-    float happiness = 22;
-    float health = 80;
+    Inventory myItems(3);
+    myItems += "Sword";
+    myItems += "Shield";
+    myItems += "Potion";
+    PrintInventoryItems(myItems);
 
-    float calories = 300;
-    float playMinutes = 120;
-    float sleepHours = 5;
-
-    Person sporty(name, energy, happiness, health);
-    sporty.Eat(calories);
-    sporty.Play(playMinutes);
-    sporty.Sleep(sleepHours);
-
-    std::cout << "Your code returned: { ";
-    std::cout << "Energy: " << sporty.GetEnergy() << ", ";
-    std::cout << "Happiness: " << sporty.GetHappiness() << ", ";
-    std::cout << "Health: " << sporty.GetHealth() << " }" << std::endl;
+    myItems.addItem("Axe");
+    myItems.PrintAllItems();
     
+
     std::cout << std::endl << std::endl;
     return 0;
 }
